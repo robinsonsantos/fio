@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import redis
+import gevent
 from gevent import monkey
 monkey.patch_all()
 
@@ -21,6 +22,10 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, async_mode='gevent')
 
+def publisher():
+    while True:
+        gevent.sleep(0)
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -30,8 +35,8 @@ def test_broadcast_message(message):
     for notification in pubsub.listen():
         print notification['channel']
         print notification['data']
-
-    	emit('my response', {'data': notification['data']}, broadcast=True)
+        emit('my response', {'data': notification['data']}, broadcast=True)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
+
