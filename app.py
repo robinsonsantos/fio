@@ -17,11 +17,6 @@ def index():
 @socketio.on('broadcast event', namespace='/test')
 def test_broadcast_message(message):
     emit('my response', {'data': message['data']}, broadcast=True)
-
-@socketio.on('slider event', namespace='/test')
-def test_slider_message(message):
-    print 'message', message
-    #emit('my response', {'data': message['data']}, broadcast=True)
     
 if __name__ == '__main__':
     socketio.run(app, debug=True)
