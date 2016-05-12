@@ -1,10 +1,21 @@
 #!/usr/bin/env python
 
+import redis
 from gevent import monkey
 monkey.patch_all()
 
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
+
+REDIS_CONFIG = {
+    'host': 'localhost',
+    'port': 6379,
+    'db': 0,
+}
+
+_redis = redis.StrictRedis(**REDIS_CONFIG)
+pubsub = _redis.pubsub(ignore_subscribe_messages=True)
+pubsub.subscribe('pub.notification')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -16,7 +27,11 @@ def index():
 
 @socketio.on('broadcast event', namespace='/test')
 def test_broadcast_message(message):
-    emit('my response', {'data': message['data']}, broadcast=True)
-    
+    for notification in pubsub.listen():
+        print notification['channel']
+        print notification['data']
+
+    	emit('my response', {'data': notification['data']}, broadcast=True)
+
 if __name__ == '__main__':
     socketio.run(app, debug=True)
