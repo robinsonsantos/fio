@@ -21,9 +21,10 @@
             // handlers for the different forms in the page
             // these send data to the server in a variety of ways
             $('form#broadcast').submit(function(event) {
-                socket.emit('my broadcast event', {data: $('#broadcast_data').val()});
+                socket.emit('broadcast event', {data: $('#broadcast_data').val()});
                 return false;
             });
+
         });
     </script>
 </head>
@@ -33,6 +34,7 @@
         <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Message">
         <input type="submit" value="Broadcast">
     </form>
+        
     <h2>Receive:</h2>
     <div id="log"></div>
 </body>
