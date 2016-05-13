@@ -10,14 +10,15 @@
             var socket = io.connect('http://' + document.domain + ':' + location.port);
             
             socket.on('temperature update', function(msg) {
-                $('#log').append('<br>' + $('<div/>').text('Received #: ' + msg.data).html());
+                $('#value').html(msg.data);
             });
 
         });
     </script>
 </head>
 <body>
-    <h2>Temperature:</h2>
-    <div id="log"></div>
+    <div id="main">
+      <h2>Temperature: <span id="value"> 0</span></h2>
+    </div>
 </body>
 </html>
