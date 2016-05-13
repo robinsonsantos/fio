@@ -13,7 +13,7 @@ REDIS_CONFIG = {
 
 redis = redis.StrictRedis(**REDIS_CONFIG)
 pubsub = redis.pubsub(ignore_subscribe_messages=True)
-pubsub.subscribe('temperature')
+pubsub.subscribe('temperature.value')
 
 socket = SocketIO('localhost', 5000)
 
