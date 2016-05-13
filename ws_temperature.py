@@ -15,11 +15,11 @@ socketio = SocketIO(app, async_mode='gevent')
 
 @app.route('/')
 def index():
-    return render_template('index2.html')
+    return render_template('temperature.html')
 
-@socketio.on('broadcast event')
+@socketio.on('temperature')
 def test_broadcast_message(message):
-    emit('my response', {'data': message['data']}, broadcast=True)
+    emit('temperature update', {'data': message['data']}, broadcast=True)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, port=5000)

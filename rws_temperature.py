@@ -13,11 +13,11 @@ REDIS_CONFIG = {
 
 redis = redis.StrictRedis(**REDIS_CONFIG)
 pubsub = redis.pubsub(ignore_subscribe_messages=True)
-pubsub.subscribe('pub.notification')
+pubsub.subscribe('temperature')
 
 socket = SocketIO('localhost', 5000)
 
 for notification in pubsub.listen():
     print notification['channel']
     print notification['data']
-    socket.emit('broadcast event', {'data': notification['data']})
+    socket.emit('temperature', {'data': notification['data']})

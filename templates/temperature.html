@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Flask-SocketIO Test</title>
+    <title>Temperature SocketIO Test</title>
     <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
     <script type="text/javascript" charset="utf-8">
@@ -9,26 +9,15 @@
 
             var socket = io.connect('http://' + document.domain + ':' + location.port);
             
-            socket.on('my response', function(msg) {
+            socket.on('temperature update', function(msg) {
                 $('#log').append('<br>' + $('<div/>').text('Received #: ' + msg.data).html());
-            });
-
-            $('form#broadcast').submit(function(event) {
-                socket.emit('broadcast event', {data: $('#broadcast_data').val()});
-                return false;
             });
 
         });
     </script>
 </head>
 <body>
-    <h2>Send:</h2>
-    <form id="broadcast" method="POST" action='#'>
-        <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Message">
-        <input type="submit" value="Broadcast">
-    </form>
-        
-    <h2>Receive:</h2>
+    <h2>Temperature:</h2>
     <div id="log"></div>
 </body>
 </html>
